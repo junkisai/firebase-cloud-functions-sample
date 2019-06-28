@@ -71,4 +71,4 @@ GETリクエストを飛ばして、[Cloud Firestore](https://firebase.google.co
   exports.api = functions.https.onRequest(app);
 ```
 
-以上を書き終えたら、`$ npm run serve`を実行してみると、`http://localhost:5000/sample-1aae6/us-central1/api/hellos/japan`や`http://localhost:5000/sample-1aae6/us-central1/api/hellos/usa`で関数が実行されていることが確認でき、`api/`を起点としたREST APIちっくなものができましたね。
+以上を書き終えたら、`$ npm run serve`を実行してみると、`http://localhost:5000/xxxxxx/us-central1/api/hellos/japan`や`http://localhost:5000/xxxxxx/us-central1/api/hellos/usa`で関数が実行されていることが確認でき、`api/`を起点としたREST APIちっくなものができましたね。
