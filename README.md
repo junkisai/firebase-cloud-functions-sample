@@ -41,7 +41,7 @@ GETリクエストを飛ばして、[Cloud Firestore](https://firebase.google.co
    
    また、`$ npm run deploy`を実行すると、Firebaseプロジェクト上にFunctionsが展開され、発行されたURLにアクセスすればlocalhost上へのデプロイと同様の結果が得られると思います。
 
-6. もう少しREST API感を出していきましょう。あるあるなURI設計は`hogehoge.com/api/hellos`や`hogehoge.com/api/hellos/:helloId`といったように`api`を起点として、その後に続くURIでCRUD操作をしています。そうなると`exports.エンドポイント名`という書き方の5.のコードはそのまま使うことができません。
+6. よくあるURI設計は`hogehoge.com/api/hellos`や`hogehoge.com/api/hellos/:helloId`といったように`api`を起点として、その後に続くURIでCRUD操作をしています。そうなると`exports.エンドポイント名`という書き方の5.のコードはそのまま使うことができません。
 
 そこで、`express`を使ってこんな感じに書きます。（その前に `$ npm install express --save`でライブラリをインストールし、`functions/api/index.js`を作成しておきます。）
 
