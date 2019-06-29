@@ -101,12 +101,24 @@ const fireStore = admin.firestore();
 app.get('/hellos', (req, res, next) => {
   fireStore.collection('hellos').get()
     // eslint-disable-next-line promise/always-return
-    .then(collection => {
-      res.json(collection.docs);
+    .then(snapshot => {
+      let responses = [];
+      snapshot.forEach(doc => {
+        responses.push(doc.data());
+      });
+      res.json(responses);
     })
     .catch(err => {
       next(err);
     });
+});
+
+app.get('/hellos/japan', (req, res) => {
+  res.send('こんにちは');
+});
+
+app.get('/hellos/usa', (req, res) => {
+  res.send('hello');
 });
 
 exports.api = functions.https.onRequest(app);
