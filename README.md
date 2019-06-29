@@ -77,5 +77,46 @@ GETリクエストを飛ばして、[Cloud Firestore](https://firebase.google.co
 
 ![image](https://user-images.githubusercontent.com/28256336/60379864-db250b80-9a75-11e9-969e-5a4ab87997f7.png)
 
+Cloud Functionsで`firestore`を使うには、`firebase-admin`が必要なので、`functions/`下で`$ npm i firebase-admin --save`を実行してライブラリをインストールします。
 
+localで確認したい場合は[こちら](https://console.firebase.google.com/u/0/project/_/settings/serviceaccounts/adminsdk?hl=ja)で`serviceAccountKey.json`を作成し、adminの初期化を行う必要があります。なお、こちらの秘密鍵は公開しないように気をつけましょう。
 
+![image](https://user-images.githubusercontent.com/28256336/60381044-825f6e00-9a89-11e9-8c6b-4b08b5dae74b.png)
+
+`api/index.js`
+``` javascript
+const express = require('express');
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+const serviceAccount = require('../config/serviceAccountKey.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://sample-1aae6.firebaseio.com"
+});
+
+const app = express();
+const fireStore = admin.firestore();
+
+app.get('/hellos', (req, res, next) => {
+  fireStore.collection('hellos').get()
+    // eslint-disable-next-line promise/always-return
+    .then(collection => {
+      res.json(collection.docs);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+exports.api = functions.https.onRequest(app);
+```
+
+`api/index.js`を以下のように書き換えて、`npm run serve`を実行し、`/api/hellos`にアクセスすると
+
+```
+[{"mes":"guten tag","country":"germany"},{"mes":"hola","country":"spain"},{"country":"japan","mes":"こんにちは"},{"mes":"hello","country":"usa"}]
+```
+といった感じにfirestoreに突っ込んだ`hellos`コレクションのドキュメント一覧が取得できていることが確認できます。
+
+より詳細なfirestoreのデータ取得方法は[こちらのドキュメント](https://firebase.google.com/docs/firestore/query-data/get-data?hl=ja#get_all_documents_in_a_collection)から
