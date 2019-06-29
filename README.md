@@ -82,7 +82,9 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
 
 以上を書き終えたら、`$ npm run serve`を実行してみると、`http://localhost:5000/xxxxxx/us-central1/api/hellos/japan`や`http://localhost:5000/xxxxxx/us-central1/api/hellos/usa`で関数が実行されていることが確認でき、`api/`を起点としたREST APIちっくなものができましたね。
 
-7. お次は`Firestore`のデータにアクセスしてリスポンスデータとして返せるようにします。まずは、以下の画像のように`country`と`mes`フィールドをもったドキュメントを数件追加しておきましょう。
+### 7. いよいよ`Firestore`のデータにアクセスしてリスポンスデータとして返せるようにします。
+
+まずは、以下の画像のように`country`と`mes`フィールドをもったドキュメントを数件追加しておきましょう。
 
 ![image](https://user-images.githubusercontent.com/28256336/60379864-db250b80-9a75-11e9-969e-5a4ab87997f7.png)
 
