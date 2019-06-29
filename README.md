@@ -32,22 +32,25 @@ GETリクエストを飛ばして、[Cloud Firestore](https://firebase.google.co
   - `? Do you want to install dependencies with npm now?`
     - Enterを押すと色々とインストールしてくれて足場作りが終わります
   
-5. `functions/index.js`にREST APIのためのエンドポイントを追加して、簡単なREST APIを作成してみます。（元々記述されていたコードのコメントアウト取っただけ）
-  ```javascript
-     const functions = require('firebase-functions');
-     
-     exports.helloWorld = functions.https.onRequest((request, response) => {
-       response.send("Hello from Firebase!");
-     });
-  ```
+### 5. `functions/index.js`にREST APIのためのエンドポイントを追加して、簡単なREST APIを作成してみます。（元々記述されていたコードのコメントアウト取っただけ）
   
-  `functions`ディレクトリ内まで移動して、`$ npm run serve`を実行すると、localhost上にデプロイされ、`/helloWorld`のエンドポイントにアクセスすると、ブラウザ上で`Hello from Firebase!`が確認できますね。
+```javascript
+const functions = require('firebase-functions');
 
-   ![image](https://user-images.githubusercontent.com/28256336/60177714-8e161f00-9854-11e9-8f21-6a69cf216b5f.png)
+exports.helloWorld = functions.https.onRequest((request, response) => {
+ response.send("Hello from Firebase!");
+});
+```
+  
+`functions`ディレクトリ内まで移動して、`$ npm run serve`を実行すると、localhost上にデプロイされ、`/helloWorld`のエンドポイントにアクセスすると、ブラウザ上で`Hello from Firebase!`が確認できますね。
+
+![image](https://user-images.githubusercontent.com/28256336/60177714-8e161f00-9854-11e9-8f21-6a69cf216b5f.png)
    
-   また、`$ npm run deploy`を実行すると、Firebaseプロジェクト上にFunctionsが展開され、発行されたURLにアクセスすればlocalhost上へのデプロイと同様の結果が得られると思います。
+また、`$ npm run deploy`を実行すると、Firebaseプロジェクト上にFunctionsが展開され、発行されたURLにアクセスすればlocalhost上へのデプロイと同様の結果が得られると思います。
 
-6. よくあるURI設計は`hogehoge.com/api/hellos`や`hogehoge.com/api/hellos/:helloId`といったように`api`を起点として、その後に続くURIでCRUD操作をしています（Firebaseでホスティングも行う場合、）。そうなると`exports.エンドポイント名`という書き方の5.のコードはそのまま使うことができません。
+### 6. express使って、`/api`を起点としてURI設計にしてみる
+
+よくあるURI設計は`hogehoge.com/api/hellos`や`hogehoge.com/api/hellos/:helloId`といったように`api`を起点として、その後に続くURIでCRUD操作をしています。そうなると`exports.エンドポイント名`という書き方の5.のコードはそのまま使うことができません。
 
 そこで、`express`を使ってこんな感じに書きます。（その前に `$ npm install express --save`でライブラリをインストールし、`functions/api/index.js`を作成しておきます。）
 
